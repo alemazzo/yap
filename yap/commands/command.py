@@ -3,6 +3,9 @@ class Command:
     def execute(self, packages: list, arguments: dict):
         raise NotImplementedError
 
+    def __str__(self):
+        return self.__class__.__name__
+
 
 def get_commands():
     from .install import Install
