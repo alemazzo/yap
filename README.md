@@ -28,7 +28,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/alemazzo/yap">
-    <img src="images/logo.png" alt="Logo" width="300" height="300">
+    <img src="images/logo.png" alt="Logo" width="200" height="200">
   </a>
 
   <h3 align="center">Yet Another Package-Manager</h3>
