@@ -1,9 +1,11 @@
-import os
-from github import Github, InputFileContent
+#!/usr/bin/python3
+from yap import parser
 
+if __name__ == '__main__':
+    args = parser.parse_arguments()
+    
+    command = args.command
+    packages = args.packages
 
-token = open('.github_token', 'r').read().strip()
-gh = Github(token)
-user = gh.get_user()
-user.create_gist(public=False, files={"yap.yml": InputFileContent(
-    "my contents")}, description="Yap configuration")
+    print(f'command = {args.command}')
+    print(f'packages = {args.packages}')
