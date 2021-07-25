@@ -1,5 +1,9 @@
 from github import Github, InputFileContent
 class Gist():
+    """
+    Gist manager that handle the update and the read of a GitHub gist.
+    `get` and `create` static method are used to retrieve or create a Gist.
+    """
 
     @staticmethod 
     def get(user, file_name):

@@ -1,12 +1,11 @@
 from requests import get, post
 import json
 import os, os.path
-
+from github import Github, InputFileContent 
 
 
 class TokenManager():
 
-    from github import Github, InputFileContent 
     """
     GitHub Access Token manager.
     If the request token is not present, it will be requested, otherwise it will be used.
@@ -38,38 +37,42 @@ class TokenManager():
         open(path, 'w').write(token)
 
     def _get_new_token(self):
-        
+        """
+        Get new token with Device-Flow procedure.
+        More info at https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps#device-flow
+        """
         def to_dict(string: str):
+            # Github response to dictionary
             args = {}
             for var in string.split('&'):
                 key, value = var.split('=')
                 args[key] = value
             return args
         
+        # Get user and device code
         res = post(TokenManager._DEVICE_LINK, data={
             'client_id': self._client_id,
             'scope': TokenManager._SCOPE
         })
-
         response = to_dict(res.text)
-
         user_code = response['user_code']
         device_code = response['device_code']
 
+        # Ask the user to grant access to the application
         print(f'Go to {TokenManager._ACTIVATE_LINK} and enter the following code: {user_code}')
         input('Press enter when you had grant the access...')
         
+        # Get the access token of the user
         res = post(TokenManager._TOKEN_LINK, data={
             'client_id': self._client_id,
             'device_code': device_code,
             'grant_type': TokenManager._GRANT_TYPE
         })
-
         response = to_dict(res.text)
         token = response['access_token']
 
-        self._save_token(token)
 
+        self._save_token(token)
         return token
 
     def get_token(self):
