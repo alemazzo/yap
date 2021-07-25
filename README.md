@@ -104,6 +104,7 @@ Libraries:
 * [pygithub](https://github.com/PyGithub/PyGithub)
 * [python-apt](https://pypi.org/project/python-apt/)
 * [python-pacman](https://pypi.org/project/python-pacman/)
+* [pyyaml](https://pyyaml.org/)
 
 
 
