@@ -1,14 +1,14 @@
 from requests import get, post
 import json
-from github import Github, InputFileContent
 import os, os.path
 
 
 
-class AuthManager():
+class TokenManager():
+
+    from github import Github, InputFileContent 
     """
-    Authentication manager.
-    Handle the managment of the access token.
+    GitHub Access Token manager.
     If the request token is not present, it will be requested, otherwise it will be used.
     The token is stored in the dot folder.
     """
@@ -28,13 +28,13 @@ class AuthManager():
         self._client_id = open('.client_id').read()
 
     def _create_dot_folder(self):
-        folder = os.path.join(os.path.expanduser('~'), AuthManager._DOT_FOLDER)
+        folder = os.path.join(os.path.expanduser('~'), TokenManager._DOT_FOLDER)
         if not os.path.isdir(folder):
             os.mkdir(folder)
 
     def _save_token(self, token):
         self._create_dot_folder()
-        path = os.path.join(AuthManager._DOT_FOLDER, AuthManager._TOKEN_FILE)
+        path = os.path.join(TokenManager._DOT_FOLDER, TokenManager._TOKEN_FILE)
         open(path, 'w').write(token)
 
     def _get_new_token(self):
@@ -46,9 +46,9 @@ class AuthManager():
                 args[key] = value
             return args
         
-        res = post(AuthManager._DEVICE_LINK, data={
+        res = post(TokenManager._DEVICE_LINK, data={
             'client_id': self._client_id,
-            'scope': AuthManager._SCOPE
+            'scope': TokenManager._SCOPE
         })
 
         response = to_dict(res.text)
@@ -56,13 +56,13 @@ class AuthManager():
         user_code = response['user_code']
         device_code = response['device_code']
 
-        print(f'Go to {AuthManager._ACTIVATE_LINK} and enter the following code: {user_code}')
+        print(f'Go to {TokenManager._ACTIVATE_LINK} and enter the following code: {user_code}')
         input('Press enter when you had grant the access...')
         
-        res = post(AuthManager._TOKEN_LINK, data={
+        res = post(TokenManager._TOKEN_LINK, data={
             'client_id': self._client_id,
             'device_code': device_code,
-            'grant_type': AuthManager._GRANT_TYPE
+            'grant_type': TokenManager._GRANT_TYPE
         })
 
         response = to_dict(res.text)
@@ -73,7 +73,7 @@ class AuthManager():
         return token
 
     def get_token(self):
-        token_path = os.path.join(AuthManager._DOT_FOLDER, AuthManager._TOKEN_FILE)
+        token_path = os.path.join(TokenManager._DOT_FOLDER, TokenManager._TOKEN_FILE)
         token_path = os.path.join(os.path.expanduser('~'), token_path)
         if os.path.isfile(token_path):
             return open(token_path).read()

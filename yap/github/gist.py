@@ -1,8 +1,8 @@
 from github import Github, InputFileContent
-from .auth import AuthManager
+from auth import TokenManager
 
-auth = AuthManager()
-token = auth.get_token
+tkmanager = TokenManager()
+token = tkmanager.get_token()
 
 gh = Github(token)
 user = gh.get_user()
