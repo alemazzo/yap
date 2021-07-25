@@ -1,29 +1,28 @@
 from github import Github, InputFileContent
-from auth import TokenManager
+class Gist():
 
-tkmanager = TokenManager()
-token = tkmanager.get_token()
+    @staticmethod 
+    def get(user, file_name):
+        gist = None
+        for gs in user.get_gists():
+            if file_name in gs.files.keys():
+                gist = gs
+        return Gist(gist, file_name)
 
-gh = Github(token)
-user = gh.get_user()
+    @staticmethod
+    def create(user, file_name, content, description, public=False):
+        user.create_gist(
+            public=public, 
+            files={file_name: InputFileContent(content)}, 
+            description=description)
+        return Gist.get(user, file_name)
 
-repo = user.get_repo('yap')
-print(repo)
+    def __init__(self, gist, file_name):
+        self.gist = gist
+        self.file_name = file_name
+    
+    def update(self, new_content):
+        self.gist.edit(files = {self.file_name : InputFileContent(new_content)})
 
-"""
-gist = None
-for gs in user.get_gists():
-    if 'yap.yml' in gs.files.keys():
-        gist = gs
-
-file = gist.files['yap.yml']
-gist.edit(files = {'yap.yml' : InputFileContent(file.content + " --- ")})
-"""
-
-
-
-"""
-user = gh.get_user()
-user.create_gist(public=False, files={"yap-config2.yml": InputFileContent(
-    "#Yap Configuration")}, description="Yap configuration")
-"""
+    def get_content(self):
+        return self.gist.files[self.file_name].content
