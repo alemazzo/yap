@@ -132,10 +132,19 @@ The following are the steps for install Yap
 <!-- USAGE EXAMPLES -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+### Start new instance and sync with GitHub
+```sh
+yap start
+```
 
-_For more examples, please refer to the [Documentation](https://example.com)_
-
+### Search packages
+```sh
+yap search $packages
+```
+### Install packages
+```sh
+yap install $packages
+```
 
 
 <!-- ROADMAP -->
