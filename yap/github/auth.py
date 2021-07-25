@@ -3,69 +3,80 @@ import json
 from github import Github, InputFileContent
 import os, os.path
 
-hd = os.path.expanduser('~')
-yap_folder = os.path.join(hd, '.yap')
 
-def toDict(response: str):
-    args = {}
-    for var in response.split('&'):
-        key, value = var.split('=')
-        args[key] = value
-    return args
 
-# Check if file exists
-def isFile(path: str):
-    return os.path.isfile(path)
+class AuthManager():
+    """
+    Authentication manager.
+    Handle the managment of the access token.
+    If the request token is not present, it will be requested, otherwise it will be used.
+    The token is stored in the dot folder.
+    """
 
-def login():
-    client_id = open('.client_id').read()
-    res = post('https://github.com/login/device/code', data={
-        'client_id': client_id,
-        'scope': 'gist'
+    _DOT_FOLDER = '.yap'
+    _TOKEN_FILE = '.token'
+
+    _SCOPE = 'gist'
+    _GRANT_TYPE = 'urn:ietf:params:oauth:grant-type:device_code'
+
+    _DEVICE_LINK = 'https://github.com/login/device/code'
+    _ACTIVATE_LINK = 'https://github.com/login/device'
+    _TOKEN_LINK = 'https://github.com/login/oauth/access_token'
+
+
+    def __init__(self):
+        self._client_id = open('.client_id').read()
+
+    def _create_dot_folder(self):
+        folder = os.path.join(os.path.expanduser('~'), AuthManager._DOT_FOLDER)
+        if not os.path.isdir(folder):
+            os.mkdir(folder)
+
+    def _save_token(self, token):
+        self._create_dot_folder()
+        path = os.path.join(AuthManager._DOT_FOLDER, AuthManager._TOKEN_FILE)
+        open(path, 'w').write(token)
+
+    def _get_new_token(self):
+        
+        def to_dict(string: str):
+            args = {}
+            for var in string.split('&'):
+                key, value = var.split('=')
+                args[key] = value
+            return args
+        
+        res = post(AuthManager._DEVICE_LINK, data={
+            'client_id': self._client_id,
+            'scope': AuthManager._SCOPE
         })
 
-    args = toDict(res.text)
-    print(args['user_code'])
+        response = to_dict(res.text)
 
-    input('Press enter to continue...')
-    res = post('https://github.com/login/oauth/access_token', data={
-        'client_id': client_id,
-        'device_code': args['device_code'],
-        'grant_type': 'urn:ietf:params:oauth:grant-type:device_code'
-    })
+        user_code = response['user_code']
+        device_code = response['device_code']
 
-    args = toDict(res.text)
-    token = args['access_token']
-    print(token)
+        print(f'Go to {AuthManager._ACTIVATE_LINK} and enter the following code: {user_code}')
+        input('Press enter when you had grant the access...')
+        
+        res = post(AuthManager._TOKEN_LINK, data={
+            'client_id': self._client_id,
+            'device_code': device_code,
+            'grant_type': AuthManager._GRANT_TYPE
+        })
 
-    # Create an hidden folder in home directory in this pc
-    os.mkdir(yap_folder)
-    open(os.path.join(yap_folder, '.token'), 'w').write(token)
+        response = to_dict(res.text)
+        token = response['access_token']
 
-    return token
+        self._save_token(token)
 
+        return token
 
-if isFile(os.path.join(yap_folder, '.token')):
-    token = open(os.path.join(yap_folder, '.token')).read()
-else:
-    token = login()
+    def get_token(self):
+        token_path = os.path.join(AuthManager._DOT_FOLDER, AuthManager._TOKEN_FILE)
+        token_path = os.path.join(os.path.expanduser('~'), token_path)
+        if os.path.isfile(token_path):
+            return open(token_path).read()
+        else:
+            return self._get_new_token()
 
-gh = Github(token)
-user = gh.get_user()
-
-gist = None
-for gs in user.get_gists():
-    if 'yap.yml' in gs.files.keys():
-        gist = gs
-
-file = gist.files['yap.yml']
-gist.edit(files = {'yap.yml' : InputFileContent(file.content + " --- ")})
-
-
-
-
-"""
-user = gh.get_user()
-user.create_gist(public=False, files={"yap-config2.yml": InputFileContent(
-    "#Yap Configuration")}, description="Yap configuration")
-"""

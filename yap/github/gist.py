@@ -1,8 +1,29 @@
 from github import Github, InputFileContent
+from .auth import AuthManager
 
+auth = AuthManager()
+token = auth.get_token
 
-token = open('.github_token', 'r').read().strip()
 gh = Github(token)
 user = gh.get_user()
-user.create_gist(public=False, files={"yap.yml": InputFileContent(
-    "my contents")}, description="Yap configuration")
+
+repo = user.get_repo('yap')
+print(repo)
+
+"""
+gist = None
+for gs in user.get_gists():
+    if 'yap.yml' in gs.files.keys():
+        gist = gs
+
+file = gist.files['yap.yml']
+gist.edit(files = {'yap.yml' : InputFileContent(file.content + " --- ")})
+"""
+
+
+
+"""
+user = gh.get_user()
+user.create_gist(public=False, files={"yap-config2.yml": InputFileContent(
+    "#Yap Configuration")}, description="Yap configuration")
+"""
