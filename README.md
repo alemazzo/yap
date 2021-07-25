@@ -145,6 +145,15 @@ yap search $packages
 ```sh
 yap install $packages
 ```
+### Uninstall packages
+```sh
+yap uninstall $packages
+```
+### Update packages
+```sh
+yap update $packages
+```
+
 
 
 <!-- ROADMAP -->
