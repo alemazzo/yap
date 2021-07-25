@@ -1,3 +1,4 @@
 pygithub
 python-apt
 python-pacman
+requests

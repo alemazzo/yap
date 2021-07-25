@@ -1,4 +1,6 @@
 .github_token
+.client_id
+
 .vscode/
 # Byte-compiled / optimized / DLL files
 __pycache__/
