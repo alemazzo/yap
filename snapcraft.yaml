@@ -8,7 +8,7 @@ confinement: devmode
 
 
 parts:
-  yap:
+  yapm:
     plugin: python
     python-version: python3
     source: .

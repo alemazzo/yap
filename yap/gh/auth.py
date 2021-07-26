@@ -33,7 +33,8 @@ class TokenManager():
 
     def _save_token(self, token):
         self._create_dot_folder()
-        path = os.path.join(TokenManager._DOT_FOLDER, TokenManager._TOKEN_FILE)
+        path = os.path.join(os.path.expanduser('~'), TokenManager._DOT_FOLDER)
+        path = os.path.join(path, TokenManager._TOKEN_FILE)
         open(path, 'w').write(token)
 
     def _get_new_token(self):
