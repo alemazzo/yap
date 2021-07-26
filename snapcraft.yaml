@@ -14,5 +14,6 @@ parts:
     source: .
 
 apps:
-  yapm:
+  yap:
     command: main.py
+    aliases: [yap]

@@ -17,9 +17,16 @@ class Parser:
 
     def parse(self):
         return self._get_real_parser().parse_args()
+    
+    def print_help(self):
+        self._get_real_parser().print_help()
 
 
 def parse_arguments():
     parser = Parser()
     args = parser.parse()
     return args
+
+def print_help():
+    parser = Parser()
+    parser.print_help()
