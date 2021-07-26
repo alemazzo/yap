@@ -1,6 +1,6 @@
 class Command:
 
-    def execute(self, packages: list, arguments: dict):
+    def execute(self, packages: list=None, arguments: dict=None):
         raise NotImplementedError
 
     def __str__(self):
@@ -12,8 +12,10 @@ def get_commands():
     from .uninstall import Uninstall
     from .search import Search
     from .update import Update
+    from .start import Start
 
     COMMANDS = {
+        'start': Start,
         'install': Install,
         'uninstall': Uninstall,
         'search': Search,

@@ -11,6 +11,7 @@ class Parser:
         parser.add_argument('command',
                             choices=get_commands().keys(),
                             help='Command to execute')
+                            
         parser.add_argument('packages', help='Packages', nargs='*')
         return parser
 

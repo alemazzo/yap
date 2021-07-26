@@ -6,5 +6,5 @@ class Update(Command):
     Update a package.
     """
 
-    def execute(self, packages: list, arguments: dict):
+    def execute(self, packages: list=None, arguments: dict=None):
         raise NotImplementedError

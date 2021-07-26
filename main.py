@@ -9,6 +9,4 @@ if __name__ == '__main__':
     packages = args.packages
     arguments = args
 
-    print(f'command = {command}')
-    print(f'packages = {packages}')
-    print(f'arguments = {arguments}')
+    command.execute(packages, arguments)
