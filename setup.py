@@ -10,7 +10,7 @@ with open("LICENSE.txt", "r", encoding="utf-8") as fh:
     license = fh.read()
 
 setup(
-    name = 'Yap',
+    name = 'yap',
     version = '0.0.1',
     description = 'Yet Another Package-Manager',
     long_description = long_description,
@@ -22,7 +22,7 @@ setup(
     packages = find_packages(),
     install_requires = [requirements],
     python_requires='>=3.6',
-    scripts = ['yap.py'],
+    scripts=['main.py']
 )
 
 

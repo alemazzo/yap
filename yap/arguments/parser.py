@@ -3,7 +3,7 @@ import argparse
 
 class Parser:
     def _get_real_parser(self):
-        from yap.commands.command import get_commands
+        from yap.commands import get_commands
 
         parser = argparse.ArgumentParser(
             description='Yet Another Package-Manager')

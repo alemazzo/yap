@@ -1,4 +1,4 @@
-name: yap
+name: yapm
 version: git
 summary: Yet Another Package Manager
 description: |
@@ -14,5 +14,5 @@ parts:
     source: .
 
 apps:
-  yap:
-    command: yap.py
+  yapm:
+    command: main.py
