@@ -1,0 +1,18 @@
+name: yapm
+version: git
+summary: Yet Another Package Manager
+description: |
+  Yet Another Package Manager
+base: core18
+confinement: devmode
+
+
+parts:
+  yap:
+    plugin: python
+    python-version: python3
+    source: .
+
+apps:
+  yapm:
+    command: main.py
