@@ -111,7 +111,8 @@ Libraries:
 <!-- GETTING STARTED -->
 ## Getting Started
 
-The following are the steps for install Yap
+The following are the steps for install Yap.
+At the moment the application is called `yapm` because i'm waiting for Snap Store to grant me the alias `yap`
 
 ### Prerequisites
 
@@ -125,7 +126,7 @@ The following are the steps for install Yap
 
 1. Install the application with snap
   ```sh
-  snap install yap
+  snap install yapm --edge --devmode
   ```
 
 
@@ -135,24 +136,24 @@ The following are the steps for install Yap
 
 ### Start new instance and sync with GitHub
 ```sh
-yap start
+yapm start
 ```
 
 ### Search packages
 ```sh
-yap search $packages
+yapm search $packages
 ```
 ### Install packages
 ```sh
-yap install $packages
+yapm install $packages
 ```
 ### Uninstall packages
 ```sh
-yap uninstall $packages
+yapm uninstall $packages
 ```
 ### Update packages
 ```sh
-yap update $packages
+yapm update $packages
 ```
 
 
