@@ -1,4 +1,4 @@
-from manager import Manager
+from .manager import Manager
 import apt
 
 class Apt(Manager):

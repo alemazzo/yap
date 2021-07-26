@@ -1,4 +1,4 @@
-name: yapm
+name: yap
 version: git
 summary: Yet Another Package Manager
 description: |
@@ -8,11 +8,11 @@ confinement: devmode
 
 
 parts:
-  yamp:
+  yap:
     plugin: python
     python-version: python3
     source: .
 
 apps:
-  yamp:
-    command: yamp.py
+  yap:
+    command: yap.py

@@ -22,7 +22,7 @@ setup(
     packages = find_packages(),
     install_requires = [requirements],
     python_requires='>=3.6',
-    scripts = ['yamp.py'],
+    scripts = ['yap.py'],
 )
 
 
