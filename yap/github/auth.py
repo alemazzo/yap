@@ -76,6 +76,7 @@ class TokenManager():
         return token
 
     def get_token(self):
+        # Get the access token
         token_path = os.path.join(TokenManager._DOT_FOLDER, TokenManager._TOKEN_FILE)
         token_path = os.path.join(os.path.expanduser('~'), token_path)
         if os.path.isfile(token_path):
